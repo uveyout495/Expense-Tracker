@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 
-export const BALANCE_ENDPOINT = `http://localhost:5000/balance`
+export const BALANCE_ENDPOINT = `${process.env.NEXT_PUBLIC_BACKEND_URL}/balance`
 
 export const balanceApi = createApi({
     tagTypes : ["refresh_balance"],

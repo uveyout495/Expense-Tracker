@@ -1,10 +1,12 @@
+'use client';
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { setUser } from "../slice/userSlice";
 
-export const USER_ENDPOINT = "http://localhost:5000/user"
+
+export const USER_ENDPOINT = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user`;
 export const userApi = createApi({
-    tagTypes: ["User_Refech"], // Define tag type (like creating a label for cache)
+    tagTypes: ["User_Refech"],
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
         baseUrl: USER_ENDPOINT,
