@@ -316,8 +316,8 @@ const HiisabDashboard = () => {
     <div className="flex flex-col items-center justify-center py-16">
       <div
         className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${darkMode
-            ? "bg-gray-700 text-white"
-            : "bg-red-100 text-black"
+          ? "bg-gray-700 text-white"
+          : "bg-red-100 text-black"
           }`}
       >
         📭
@@ -325,8 +325,8 @@ const HiisabDashboard = () => {
 
       <h2
         className={`mt-4 text-lg font-semibold ${darkMode
-            ? "text-white"
-            : "text-gray-700"
+          ? "text-white"
+          : "text-gray-700"
           }`}
       >
         No Expenses Found
@@ -334,8 +334,8 @@ const HiisabDashboard = () => {
 
       <p
         className={`text-sm mt-1 text-center px-4 ${darkMode
-            ? "text-gray-300"
-            : "text-gray-500"
+          ? "text-gray-300"
+          : "text-gray-500"
           }`}
       >
         You haven&apos;t added any expenses for{" "}
@@ -385,15 +385,15 @@ const HiisabDashboard = () => {
   ) : (
     <div
       className={`min-h-screen flex flex-col lg:flex-row transition-all duration-300 ${darkMode
-          ? "bg-[#0f172a] text-white"
-          : "bg-gray-100 text-black"
+        ? "bg-[#0f172a] text-white"
+        : "bg-gray-100 text-black"
         }`}
     >
       {/* SIDEBAR */}
       <div
         className={`w-full lg:w-[260px] p-4 ${darkMode
-            ? "bg-[#020617]"
-            : "bg-black text-white"
+          ? "bg-[#020617]"
+          : "bg-black text-white"
           }`}
       >
         {/* HEADER */}
@@ -408,8 +408,8 @@ const HiisabDashboard = () => {
               setDarkMode(!darkMode)
             }
             className={`p-2 rounded-lg transition-all duration-200 ${darkMode
-                ? "bg-gray-700 text-yellow-300"
-                : "bg-gray-200 text-black"
+              ? "bg-gray-700 text-yellow-300"
+              : "bg-gray-200 text-black"
               }`}
           >
             {darkMode ? (
@@ -448,12 +448,12 @@ const HiisabDashboard = () => {
                   refetchTotalExpance();
               }}
               className={`flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${text === item.label
-                  ? darkMode
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-black"
-                  : darkMode
-                    ? "bg-slate-800 hover:bg-slate-700"
-                    : "bg-gray-900 hover:bg-gray-800"
+                ? darkMode
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-black"
+                : darkMode
+                  ? "bg-slate-800 hover:bg-slate-700"
+                  : "bg-gray-900 hover:bg-gray-800"
                 }`}
             >
               {item.icon}
@@ -473,14 +473,14 @@ const HiisabDashboard = () => {
           {/* CARD 1 */}
           <div
             className={`rounded-2xl p-5 shadow-sm ${darkMode
-                ? "bg-slate-800"
-                : "bg-white"
+              ? "bg-slate-800"
+              : "bg-white"
               }`}
           >
             <h2
               className={`text-sm ${darkMode
-                  ? "text-gray-300"
-                  : "text-gray-500"
+                ? "text-gray-300"
+                : "text-gray-500"
                 }`}
             >
               Total Expense
@@ -494,14 +494,14 @@ const HiisabDashboard = () => {
           {/* CARD 2 */}
           <div
             className={`rounded-2xl p-5 shadow-sm ${darkMode
-                ? "bg-slate-800"
-                : "bg-white"
+              ? "bg-slate-800"
+              : "bg-white"
               }`}
           >
             <h2
               className={`text-sm ${darkMode
-                  ? "text-gray-300"
-                  : "text-gray-500"
+                ? "text-gray-300"
+                : "text-gray-500"
                 }`}
             >
               This Month
@@ -517,14 +517,14 @@ const HiisabDashboard = () => {
           {/* CARD 3 */}
           <div
             className={`rounded-2xl p-5 shadow-sm ${darkMode
-                ? "bg-slate-800"
-                : "bg-white"
+              ? "bg-slate-800"
+              : "bg-white"
               }`}
           >
             <h2
               className={`text-sm ${darkMode
-                  ? "text-gray-300"
-                  : "text-gray-500"
+                ? "text-gray-300"
+                : "text-gray-500"
                 }`}
             >
               Today
@@ -547,8 +547,8 @@ const HiisabDashboard = () => {
 
             <p
               className={`text-sm mt-1 ${darkMode
-                  ? "text-gray-400"
-                  : "text-gray-500"
+                ? "text-gray-400"
+                : "text-gray-500"
                 }`}
             >
               Manage your daily expenses
@@ -565,8 +565,8 @@ const HiisabDashboard = () => {
                 )
               }
               className={`px-4 py-3 rounded-xl outline-none ${darkMode
-                  ? "bg-slate-800 border border-slate-700 text-white"
-                  : "bg-black text-white"
+                ? "bg-slate-800 border border-slate-700 text-white"
+                : "bg-black text-white"
                 }`}
             >
               <option value="">
@@ -601,8 +601,8 @@ const HiisabDashboard = () => {
               }
               placeholder="Search..."
               className={`px-4 py-3 rounded-xl border outline-none ${darkMode
-                  ? "bg-slate-800 border-slate-700 text-white"
-                  : "bg-white"
+                ? "bg-slate-800 border-slate-700 text-white"
+                : "bg-white"
                 }`}
             />
 
@@ -623,15 +623,15 @@ const HiisabDashboard = () => {
         {/* DESKTOP TABLE */}
         <div
           className={`hidden lg:block mt-6 rounded-2xl overflow-hidden shadow-sm ${darkMode
-              ? "bg-slate-800"
-              : "bg-white"
+            ? "bg-slate-800"
+            : "bg-white"
             }`}
         >
           {/* TABLE HEADER */}
           <div
             className={`grid grid-cols-7 p-4 font-semibold text-sm ${darkMode
-                ? "bg-slate-700"
-                : "bg-gray-200"
+              ? "bg-slate-700"
+              : "bg-gray-200"
               }`}
           >
             <div>Item</div>
@@ -650,8 +650,8 @@ const HiisabDashboard = () => {
                 <div
                   key={i}
                   className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${darkMode
-                      ? "border-slate-700 hover:bg-slate-700"
-                      : "hover:bg-gray-50"
+                    ? "border-slate-700 hover:bg-slate-700"
+                    : "hover:bg-gray-50"
                     }`}
                 >
                   <div>{row.item}</div>
@@ -713,8 +713,8 @@ const HiisabDashboard = () => {
                 <div
                   key={i}
                   className={`rounded-2xl shadow-sm p-4 ${darkMode
-                      ? "bg-slate-800"
-                      : "bg-white"
+                    ? "bg-slate-800"
+                    : "bg-white"
                     }`}
                 >
                   {/* TOP */}
@@ -772,7 +772,13 @@ const HiisabDashboard = () => {
                         Date
                       </p>
 
-                      <p>{row.date}</p>
+                      <p>      
+                        {new Date(row.date).toLocaleDateString("en-IN", {
+                        weekday: "short",
+                        year: "2-digit",
+                        month: "long",
+                        day: "numeric",
+                      })}</p>
                     </div>
 
                     <div>
