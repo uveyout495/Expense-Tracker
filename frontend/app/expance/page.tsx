@@ -53,8 +53,7 @@ let submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
   if (imageFile) {
     form.append("image", imageFile)
   }
-
-  console.log([...form.entries()]);
+  
   await createExpance(form)
 }
 
