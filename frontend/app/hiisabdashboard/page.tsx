@@ -315,31 +315,28 @@ const HiisabDashboard = () => {
   }) => (
     <div className="flex flex-col items-center justify-center py-16">
       <div
-        className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${
-          darkMode
+        className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${darkMode
             ? "bg-gray-700 text-white"
             : "bg-red-100 text-black"
-        }`}
+          }`}
       >
         📭
       </div>
 
       <h2
-        className={`mt-4 text-lg font-semibold ${
-          darkMode
+        className={`mt-4 text-lg font-semibold ${darkMode
             ? "text-white"
             : "text-gray-700"
-        }`}
+          }`}
       >
         No Expenses Found
       </h2>
 
       <p
-        className={`text-sm mt-1 text-center px-4 ${
-          darkMode
+        className={`text-sm mt-1 text-center px-4 ${darkMode
             ? "text-gray-300"
             : "text-gray-500"
-        }`}
+          }`}
       >
         You haven&apos;t added any expenses for{" "}
         <span className="font-medium">
@@ -378,28 +375,26 @@ const HiisabDashboard = () => {
     text === "Today"
       ? todayExpance
       : text === "This Monthly"
-      ? thisMonthFilter
-      : text === "This Yearly"
-      ? ThisYearData?.data?.expances
-      : totalExpanceFilter;
+        ? thisMonthFilter
+        : text === "This Yearly"
+          ? ThisYearData?.data?.expances
+          : totalExpanceFilter;
 
   return !data?.user ? (
     <AccessDenied />
   ) : (
     <div
-      className={`min-h-screen flex flex-col lg:flex-row transition-all duration-300 ${
-        darkMode
+      className={`min-h-screen flex flex-col lg:flex-row transition-all duration-300 ${darkMode
           ? "bg-[#0f172a] text-white"
           : "bg-gray-100 text-black"
-      }`}
+        }`}
     >
       {/* SIDEBAR */}
       <div
-        className={`w-full lg:w-[260px] p-4 ${
-          darkMode
+        className={`w-full lg:w-[260px] p-4 ${darkMode
             ? "bg-[#020617]"
             : "bg-black text-white"
-        }`}
+          }`}
       >
         {/* HEADER */}
         <div className="flex items-center justify-between mb-6">
@@ -412,11 +407,10 @@ const HiisabDashboard = () => {
             onClick={() =>
               setDarkMode(!darkMode)
             }
-            className={`p-2 rounded-lg transition-all duration-200 ${
-              darkMode
+            className={`p-2 rounded-lg transition-all duration-200 ${darkMode
                 ? "bg-gray-700 text-yellow-300"
                 : "bg-gray-200 text-black"
-            }`}
+              }`}
           >
             {darkMode ? (
               <BsSunFill size={18} />
@@ -453,15 +447,14 @@ const HiisabDashboard = () => {
                 item.label === "All" &&
                   refetchTotalExpance();
               }}
-              className={`flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                text === item.label
+              className={`flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${text === item.label
                   ? darkMode
                     ? "bg-blue-600 text-white"
                     : "bg-white text-black"
                   : darkMode
-                  ? "bg-slate-800 hover:bg-slate-700"
-                  : "bg-gray-900 hover:bg-gray-800"
-              }`}
+                    ? "bg-slate-800 hover:bg-slate-700"
+                    : "bg-gray-900 hover:bg-gray-800"
+                }`}
             >
               {item.icon}
 
@@ -479,18 +472,16 @@ const HiisabDashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* CARD 1 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${
-              darkMode
+            className={`rounded-2xl p-5 shadow-sm ${darkMode
                 ? "bg-slate-800"
                 : "bg-white"
-            }`}
+              }`}
           >
             <h2
-              className={`text-sm ${
-                darkMode
+              className={`text-sm ${darkMode
                   ? "text-gray-300"
                   : "text-gray-500"
-              }`}
+                }`}
             >
               Total Expense
             </h2>
@@ -502,18 +493,16 @@ const HiisabDashboard = () => {
 
           {/* CARD 2 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${
-              darkMode
+            className={`rounded-2xl p-5 shadow-sm ${darkMode
                 ? "bg-slate-800"
                 : "bg-white"
-            }`}
+              }`}
           >
             <h2
-              className={`text-sm ${
-                darkMode
+              className={`text-sm ${darkMode
                   ? "text-gray-300"
                   : "text-gray-500"
-              }`}
+                }`}
             >
               This Month
             </h2>
@@ -527,18 +516,16 @@ const HiisabDashboard = () => {
 
           {/* CARD 3 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${
-              darkMode
+            className={`rounded-2xl p-5 shadow-sm ${darkMode
                 ? "bg-slate-800"
                 : "bg-white"
-            }`}
+              }`}
           >
             <h2
-              className={`text-sm ${
-                darkMode
+              className={`text-sm ${darkMode
                   ? "text-gray-300"
                   : "text-gray-500"
-              }`}
+                }`}
             >
               Today
             </h2>
@@ -559,11 +546,10 @@ const HiisabDashboard = () => {
             </h2>
 
             <p
-              className={`text-sm mt-1 ${
-                darkMode
+              className={`text-sm mt-1 ${darkMode
                   ? "text-gray-400"
                   : "text-gray-500"
-              }`}
+                }`}
             >
               Manage your daily expenses
             </p>
@@ -578,11 +564,10 @@ const HiisabDashboard = () => {
                   e.target.value
                 )
               }
-              className={`px-4 py-3 rounded-xl outline-none ${
-                darkMode
+              className={`px-4 py-3 rounded-xl outline-none ${darkMode
                   ? "bg-slate-800 border border-slate-700 text-white"
                   : "bg-black text-white"
-              }`}
+                }`}
             >
               <option value="">
                 Select Category
@@ -615,11 +600,10 @@ const HiisabDashboard = () => {
                 )
               }
               placeholder="Search..."
-              className={`px-4 py-3 rounded-xl border outline-none ${
-                darkMode
+              className={`px-4 py-3 rounded-xl border outline-none ${darkMode
                   ? "bg-slate-800 border-slate-700 text-white"
                   : "bg-white"
-              }`}
+                }`}
             />
 
             {/* ADD BUTTON */}
@@ -638,19 +622,17 @@ const HiisabDashboard = () => {
 
         {/* DESKTOP TABLE */}
         <div
-          className={`hidden lg:block mt-6 rounded-2xl overflow-hidden shadow-sm ${
-            darkMode
+          className={`hidden lg:block mt-6 rounded-2xl overflow-hidden shadow-sm ${darkMode
               ? "bg-slate-800"
               : "bg-white"
-          }`}
+            }`}
         >
           {/* TABLE HEADER */}
           <div
-            className={`grid grid-cols-7 p-4 font-semibold text-sm ${
-              darkMode
+            className={`grid grid-cols-7 p-4 font-semibold text-sm ${darkMode
                 ? "bg-slate-700"
                 : "bg-gray-200"
-            }`}
+              }`}
           >
             <div>Item</div>
             <div>Price</div>
@@ -667,11 +649,10 @@ const HiisabDashboard = () => {
               (row: any, i: number) => (
                 <div
                   key={i}
-                  className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${
-                    darkMode
+                  className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${darkMode
                       ? "border-slate-700 hover:bg-slate-700"
                       : "hover:bg-gray-50"
-                  }`}
+                    }`}
                 >
                   <div>{row.item}</div>
 
@@ -691,7 +672,14 @@ const HiisabDashboard = () => {
                     }
                   </div>
 
-                  <div>{row.date}</div>
+                  <div>
+                    {new Date(row.date).toLocaleDateString("en-IN", {
+                      weekday: "short",
+                      year: "2-digit",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </div>
 
                   <div className="truncate">
                     {row.notes}
@@ -724,11 +712,10 @@ const HiisabDashboard = () => {
               (row: any, i: number) => (
                 <div
                   key={i}
-                  className={`rounded-2xl shadow-sm p-4 ${
-                    darkMode
+                  className={`rounded-2xl shadow-sm p-4 ${darkMode
                       ? "bg-slate-800"
                       : "bg-white"
-                  }`}
+                    }`}
                 >
                   {/* TOP */}
                   <div className="flex items-start justify-between">
