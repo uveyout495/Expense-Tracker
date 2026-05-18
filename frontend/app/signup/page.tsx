@@ -7,7 +7,7 @@ import {
 } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
-import { useRegisterUserMutation } from "../store/api/userApi";
+import { USER_ENDPOINT, useRegisterUserMutation } from "../store/api/userApi";
 import { toast } from "react-toastify";
 import { BiLoader } from "react-icons/bi";
 
@@ -30,6 +30,16 @@ const Signup = () => {
         await registerUser({ formData })
         console.log(registerData)
     }
+
+      const handelGoogleLogin = async () => {
+        try {
+          navigate.push(`${USER_ENDPOINT}/google`)
+        } catch (error) {
+          console.log(error)
+          toast.error("Email or Password is Incorrent")
+        } finally {
+        }
+      }
 
     useEffect(() => {
         if (registerIsSuccess) {
@@ -59,7 +69,7 @@ const Signup = () => {
                 </p>
 
 
-                <button className="flex items-center justify-center gap-3 w-full bg-white text-black py-2 rounded-lg font-medium hover:bg-gray-200 transition">
+                <button onClick={handelGoogleLogin} className="flex items-center justify-center gap-3 w-full bg-white text-black py-2 rounded-lg font-medium hover:bg-gray-200 transition">
                     <FcGoogle size={22} />
                     Continue with Google
                 </button>
