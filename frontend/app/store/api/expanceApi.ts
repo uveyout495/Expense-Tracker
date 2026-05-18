@@ -44,6 +44,7 @@ export const expanceApi = createApi({
                 url : `/${id}`,
                 method : "DELETE",
             }),
+            invalidatesTags : ["refresh_expance"],
         }),
         getTotalExpance : builder.query({
             query : () => ({

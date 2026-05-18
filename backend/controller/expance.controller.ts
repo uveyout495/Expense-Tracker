@@ -164,8 +164,9 @@ export const updateExpance = async (req: Request, res: Response) => {
 
 export const deleteExpance = async (req: Request, res: Response) => {
     try {
-        let expanceId = req.params.id;
-        let expance = await Expance.findById(expanceId);
+        const { id } = req.params as { id: string };
+        const expance = await Expance.findById(id);
+
         if (!expance) {
             return res.status(404).json({
                 success: false,
@@ -173,29 +174,41 @@ export const deleteExpance = async (req: Request, res: Response) => {
             });
         }
 
+        const expancePrice = expance.price;
+        const user = await User.findById((req.user as any)?._id);
 
+        if (user) {
+            user.totalBalance += expancePrice;
+            await user.save();
+        }
 
         if (expance.image) {
-            let oldPublicId = expance.image?.split("/").pop()?.split(".")[0];
+            const oldPublicId = expance.image
+                ?.split("/")
+                .pop()
+                ?.split(".")[0];
 
             if (oldPublicId) {
                 await cloudinary.uploader.destroy(oldPublicId);
             }
-
         }
 
-        await Expance.findByIdAndDelete(expanceId);
+        await Expance.findByIdAndDelete(id);
+
         return res.status(200).json({
             success: true,
             message: "Expance deleted successfully"
         });
 
-
     } catch (error) {
-        console.log("Error in deleteExpance controller: ", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+        console.log("Error in deleteExpance controller:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
     }
-}
+};
 
 
 

@@ -13,8 +13,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrorMessage, setUser } from "../store/slice/userSlice";
-import { useGetThisMonthExpanceQuery, useGetThisYearExpanceQuery, useGetTodayExpanceQuery, useGetTotalExpanceQuery } from "../store/api/expanceApi";
+import { useDeleteExpanceMutation, useGetThisMonthExpanceQuery, useGetThisYearExpanceQuery, useGetTodayExpanceQuery, useGetTotalExpanceQuery } from "../store/api/expanceApi";
 import AccessDenied from "../components/AccessDenied";
+import { BiXCircle } from "react-icons/bi";
+import { BsXLg } from "react-icons/bs";
 
 const HiisabDashboard = () => {
   let { data } = useLoaderUserQuery({})
@@ -31,27 +33,35 @@ const HiisabDashboard = () => {
   let { data: ThisYearData, refetch: refetchThisYear } = useGetThisYearExpanceQuery({})
   let { data: totalExpanceData, refetch: refetchTotalExpance } = useGetTotalExpanceQuery({})
   let { data: todayExpanceData, refetch: refetchTodayExpance } = useGetTodayExpanceQuery({})
+  let [deleteExpance , { isLoading: isDeleteLoading, isSuccess: isDeleteSuccess, isError: isDeleteError }] = useDeleteExpanceMutation()
 
 
-    let { user, errorMesaage } = useSelector((state: any) => state.user);
-    const router = useRouter();
-    let pathname = usePathname();
-  
-    useEffect(() => {
-      const publicRoutes = ["/", "/login", "/signup" , "/ask"];
-      if (!user && !publicRoutes.includes(pathname)) {
-        router.push("/");
-        dispatch(setErrorMessage(true));
-        toast.error("Please sign in to access this page")
-      }
-    }, [user, pathname, router, dispatch]);
-  
+  let { user, errorMesaage } = useSelector((state: any) => state.user);
+  const router = useRouter();
+  let pathname = usePathname();
+
+  useEffect(() => {
+    const publicRoutes = ["/", "/login", "/signup", "/ask"];
+    if (!user && !publicRoutes.includes(pathname)) {
+      router.push("/");
+      dispatch(setErrorMessage(true));
+      toast.error("Please sign in to access this page")
+    }
+  }, [user, pathname, router, dispatch]);
+
 
   const onClickLogoutHander = async (text: string) => {
     if (text === "Logout") {
       await logoutUser({})
       dispatch(setUser({ user: null }))
       toast.success("Logged Out successfully")
+    }
+  }
+
+  const onClickDeleteExpance = async (id: string) => {
+    console.log("Deleting expance with id: ", id)
+    if (window.confirm("Are you sure you want to delete this expance?")) {
+      await deleteExpance(id)
     }
   }
 
@@ -67,7 +77,12 @@ const HiisabDashboard = () => {
       navigate.push("/login");
     }
 
-  }, [logoutData, isLogoutError, logoutError])
+    if (isDeleteSuccess) {
+      toast.success("Expance Deleted Successfully")
+      refetchTotalExpance()
+    }
+
+  }, [logoutData, isLogoutError, logoutError , isDeleteSuccess])
 
   useEffect(() => {
     const expances = totalExpanceData?.expances?.filter((expance: any) => {
@@ -227,21 +242,23 @@ const HiisabDashboard = () => {
             <div className="min-w-[650px]">
 
               {/* Header */}
-              <div className="grid grid-cols-6 bg-gray-200 p-2 md:p-3 font-semibold text-xs md:text-sm">
+              <div className="grid grid-cols-7 bg-gray-200 p-2 md:p-3 font-semibold text-xs md:text-sm">
                 <div>Item</div>
                 <div>Price</div>
                 <div>Category</div>
                 <div>Payment</div>
                 <div>Date</div>
                 <div>Notes</div>
+                <div>Remove</div>
               </div>
 
               {
                 text === "Today" ? (
                   todayExpance?.map((row: any, i: number) => (
+                    
                     <div
                       key={i}
-                      className="grid grid-cols-6 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
+                      className="grid grid-cols-7 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
                     >
                       <div>{row.item}</div>
                       <div>{row.price}</div>
@@ -249,13 +266,18 @@ const HiisabDashboard = () => {
                       <div>{row.paymentMethod}</div>
                       <div>{row.date}</div>
                       <div className="truncate">{row.notes}</div>
+                      <div>
+                        <button onClick={() => onClickDeleteExpance(row._id)} className=" text-red-500 p-2 rounded hover:bg-red-400 text-xs">
+                          <BsXLg size={19} />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : text === "This Monthly" ? (
                   thisYearFilter?.map((row: any, i: number) => (
                     <div
                       key={i}
-                      className="grid grid-cols-6 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
+                      className="grid grid-cols-7 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
                     >
                       <div>{row.item}</div>
                       <div>{row.price}</div>
@@ -263,13 +285,18 @@ const HiisabDashboard = () => {
                       <div>{row.paymentMethod}</div>
                       <div>{row.date}</div>
                       <div className="truncate">{row.notes}</div>
+                      <div>
+                        <button onClick={() => onClickDeleteExpance(row._id)} className=" text-red-500 p-2 rounded hover:bg-red-400 text-xs">
+                          <BsXLg size={19} />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : text === "This Yearly" ? (
                   ThisYearData?.data?.expances?.map((row: any, i: number) => (
                     <div
                       key={i}
-                      className="grid grid-cols-6 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
+                      className="grid grid-cols-7 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
                     >
                       <div>{row.item}</div>
                       <div>{row.price}</div>
@@ -277,13 +304,18 @@ const HiisabDashboard = () => {
                       <div>{row.paymentMethod}</div>
                       <div>{row.date}</div>
                       <div className="truncate">{row.notes}</div>
+                      <div>
+                        <button onClick={() => onClickDeleteExpance(row._id)} className=" text-red-500 p-2 rounded hover:bg-red-400 text-xs">
+                          <BsXLg size={19} />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : text === "All" ? (
                   totalExpanceFilter?.map((row: any, i: number) => (
                     <div
                       key={i}
-                      className="grid grid-cols-6 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
+                      className="grid grid-cols-7 p-2 md:p-3 border-t text-xs md:text-sm hover:bg-gray-50"
                     >
                       <div>{row?.item}</div>
                       <div>{row?.price}</div>
@@ -291,6 +323,11 @@ const HiisabDashboard = () => {
                       <div>{row?.paymentMethod}</div>
                       <div>{row?.date}</div>
                       <div className="truncate">{row?.notes}</div>
+                      <div>
+                        <button onClick={() => onClickDeleteExpance(row._id)} className=" text-red-500 p-2 rounded hover:bg-red-400 text-xs">
+                          <BsXLg size={19} />
+                        </button>
+                      </div>
                     </div>
                   ))
                 ) : null
