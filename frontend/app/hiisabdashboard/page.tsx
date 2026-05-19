@@ -704,6 +704,7 @@ const HiisabDashboard = () => {
               (row: any, i: number) => (
                 <div
                   key={i}
+                  onClick={() => navigate.push(`/hiisabdashboard/${row._id}`)}
                   className={`rounded-2xl shadow-sm p-4 ${darkMode
                     ? "bg-slate-800"
                     : "bg-white"
