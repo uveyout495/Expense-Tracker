@@ -8,6 +8,7 @@ import { User } from "../model/user.model";
 export const createExpance = async (req: Request, res: Response) => {
     try {
         let user = (req.user as any)?._id;
+        console.log(user)
         let { item, price, expanceCategory, paymentMethod, date, notes } = req.body;
         console.log("Received data in createExpance controller: ", { item, price, expanceCategory, paymentMethod, date, notes });
 
@@ -140,6 +141,20 @@ export const updateExpance = async (req: Request, res: Response) => {
             let file = DataUri(image);
             let cloudinaryResponse = await cloudinary.uploader.upload(file as string);
             expance.image = cloudinaryResponse.secure_url;
+        }
+
+        if (price && price !== expance.price) {
+            let user = await User.findById((req.user as any)?._id);
+            if (user) {
+                user.totalBalance += expance.price;
+                if (user.totalBalance < price) {
+                    return res.status(400).json({ success: false, message: "Insufficient balance to update expance" });
+                } else {
+                    user.totalBalance -= price;
+                    await user.save();
+                }
+            }
+
         }
 
         expance.item = item || expance.item;

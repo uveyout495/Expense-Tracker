@@ -46,21 +46,13 @@ import AccessDenied from "../components/AccessDenied";
 
 const HiisabDashboard = () => {
   const navigate = useRouter();
-
   const router = useRouter();
-
   const dispatch = useDispatch();
-
   const pathname = usePathname();
-
   const { data } = useLoaderUserQuery({});
-
   const { user } = useSelector((state: any) => state.user);
-
   const [text, setText] = useState("All");
-
   const [searchText, setSearchText] = useState("");
-
   const [darkMode, setDarkMode] = useState(false);
 
   const [totalExpanceFilter, setTotalExpanceFilter] =
@@ -649,6 +641,7 @@ const HiisabDashboard = () => {
               (row: any, i: number) => (
                 <div
                   key={i}
+                  onClick={() => navigate.push(`/hiisabdashboard/${row._id}`)}
                   className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${darkMode
                     ? "border-slate-700 hover:bg-slate-700"
                     : "hover:bg-gray-50"
@@ -687,11 +680,10 @@ const HiisabDashboard = () => {
 
                   <div>
                     <button
-                      onClick={() =>
-                        onClickDeleteExpance(
-                          row._id
-                        )
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClickDeleteExpance(row._id);
+                      }}
                       className="text-red-500 hover:bg-red-100 hover:text-red-600 p-2 rounded-lg"
                     >
                       <BsXLg size={16} />
@@ -730,11 +722,10 @@ const HiisabDashboard = () => {
                     </div>
 
                     <button
-                      onClick={() =>
-                        onClickDeleteExpance(
-                          row._id
-                        )
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClickDeleteExpance(row._id);
+                      }}
                       className="text-red-500"
                     >
                       <BsXLg size={18} />
@@ -772,13 +763,13 @@ const HiisabDashboard = () => {
                         Date
                       </p>
 
-                      <p>      
+                      <p>
                         {new Date(row.date).toLocaleDateString("en-IN", {
-                        weekday: "short",
-                        year: "2-digit",
-                        month: "long",
-                        day: "numeric",
-                      })}</p>
+                          weekday: "short",
+                          year: "2-digit",
+                          month: "long",
+                          day: "numeric",
+                        })}</p>
                     </div>
 
                     <div>

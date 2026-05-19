@@ -31,13 +31,15 @@ export const expanceApi = createApi({
                 url : `/${id}`,
                 method : "GET",
             }),
+            providesTags : ["refresh_expance"]
         }),
         updateExpance : builder.mutation({
             query : ({fromData , id}) => ({
                 url : `/${id}`,
                 method : "PUT",
-                body : {fromData}
+                body : fromData,
             }),
+            invalidatesTags : ["refresh_expance"],
         }),
         deleteExpance : builder.mutation({
             query : (id) => ({
