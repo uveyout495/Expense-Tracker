@@ -190,6 +190,8 @@ let submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
               <option value="shopping">Shopping</option>
               <option value="shopping">Cloths</option>
               <option value="bills">Bills</option>
+              <option value="recharge">Recharge</option>
+              <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
             </select>
           </div>
 

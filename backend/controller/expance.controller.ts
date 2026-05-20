@@ -8,7 +8,6 @@ import { User } from "../model/user.model";
 export const createExpance = async (req: Request, res: Response) => {
     try {
         let user = (req.user as any)?._id;
-        console.log(user)
         let { item, price, expanceCategory, paymentMethod, date, notes } = req.body;
         console.log("Received data in createExpance controller: ", { item, price, expanceCategory, paymentMethod, date, notes });
 

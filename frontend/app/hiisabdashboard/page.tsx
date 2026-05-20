@@ -653,15 +653,17 @@ const HiisabDashboard = () => {
                     ₹{row.price}
                   </div>
 
-                  <div>
+                  <div className="truncate pr-2">
                     {
-                      row.expanceCategory
+                      row.expanceCategory.toUpperCase()[0] +
+                      row.expanceCategory.slice(1)
                     }
                   </div>
 
                   <div>
                     {
-                      row.paymentMethod
+                      row.paymentMethod.toUpperCase()[0] +
+                      row.paymentMethod.slice(1)
                     }
                   </div>
 
