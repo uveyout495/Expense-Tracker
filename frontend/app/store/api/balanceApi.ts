@@ -34,8 +34,14 @@ export const balanceApi = createApi({
             }),
             providesTags : ["refresh_balance"],
         }),
-        
-        
+        editBalance : builder.mutation({
+            query : (amount) => ({
+                url : "/editbalance",
+                method : "PUT",
+                body : { amount }
+            }),
+            invalidatesTags : ["refresh_balance"],
+        })
     })
 })
 
@@ -43,4 +49,5 @@ export const {
     useAddBalanceMutation,
     useGetTotalBalanceQuery,
     useGetRecentBalanceQuery,
+    useEditBalanceMutation
 } = balanceApi;

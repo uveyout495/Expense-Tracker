@@ -74,3 +74,36 @@ export const getRecentBalance = async (req: Request, res: Response) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" })
     }
 }
+
+export const editBalance = async (req: Request, res: Response) => {
+    try {
+        const userId = (req.user as any)?._id;
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
+
+        let user = await User.findById(userId).select("-password")
+        if (!user) {
+            return res.status(401).json({ success: false, message: "User not found" });
+        }
+
+        let { amount } = req.body;
+        if (!amount) {
+            return res.status(400).json({ success: false, message: "Amount is Required" });
+        }
+
+        let amt = Number(amount);
+        if (isNaN(amt) || amt < 0) {
+            return res.status(400).json({ success: false, message: "Amount must be a non-negative number" });
+        }
+
+        user.totalBalance = amt
+        await user.save();
+
+        return res.status(200).json({ success: true, message: "Balance Updated Successfully" });
+
+    } catch (error: any) {
+        console.log("Error In editBalance controller", error.message)
+        return res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}
