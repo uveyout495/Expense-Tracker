@@ -127,12 +127,12 @@ const EditPage = () => {
             Dashboard
           </button>
 
-          <button onClick={()=> navigate.push("/hiisabdashboard/expense_chart")} className="w-full flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl text-gray-300 transition">
+          <button onClick={() => navigate.push("/hiisabdashboard/expense_chart")} className="w-full flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl text-gray-300 transition">
             <FiPieChart size={20} />
             Analytics
           </button>
 
-          <button onClick={()=> navigate.push("/hiisabdashboard")} className="w-full flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl text-gray-300 transition">
+          <button onClick={() => navigate.push("/hiisabdashboard")} className="w-full flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl text-gray-300 transition">
             <FiCreditCard size={20} />
             Expenses
           </button>
@@ -298,6 +298,9 @@ const EditPage = () => {
                     <option value="shopping">Shopping</option>
                     <option value="shopping">Cloths</option>
                     <option value="bills">Bills</option>
+                    <option value="medical">Medical</option>
+                    <option value="recharge">Recharge</option>
+                    <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
                   </select>
                 </div>
 
@@ -351,7 +354,7 @@ const EditPage = () => {
               {/* Button */}
               <button className="w-full bg-yellow-400 hover:bg-yellow-500 transition text-black py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-yellow-500/30">
                 {isUpdating ? <p className="flex item-center justify-center gap-2"><BiLoader className="animate-spin" size={22} /> Updating...</p> : "Update Expense"}
-                
+
               </button>
             </form>
           </div>

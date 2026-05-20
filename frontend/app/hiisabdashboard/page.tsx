@@ -564,22 +564,21 @@ const HiisabDashboard = () => {
               <option value="">
                 Select Category
               </option>
-
-              <option value="food">
-                Food
-              </option>
-
-              <option value="shopping">
-                Shopping
-              </option>
-
-              <option value="movies">
-                Movies
-              </option>
-
-              <option value="bills">
-                Bills
-              </option>
+              <option value="food">Food</option>
+              <option value="fruits">Fruits</option>
+              <option value="donations">Donations</option>
+              <option value="movies">Movies</option>
+              <option value="fast_foods">Fast Foods</option>
+              <option value="EMIs">EMIs</option>
+              <option value="transport">Transport</option>
+              <option value="diesel">Diesel</option>
+              <option value="petrol">Petrol</option>
+              <option value="shopping">Shopping</option>
+              <option value="shopping">Cloths</option>
+              <option value="bills">Bills</option>
+              <option value="recharge">Recharge</option>
+              <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
+              <option value="medical">Medical</option>
             </select>
 
             {/* SEARCH */}
