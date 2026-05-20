@@ -193,6 +193,8 @@ let submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
               <option value="recharge">Recharge</option>
               <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
               <option value="medical">Medical</option>
+              <option value="gym">Gym</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
