@@ -14,8 +14,6 @@ const Navbar = () => {
   const router = useRouter();
   let pathname = usePathname();
   let dispatch = useDispatch()
-
-//  https://expense-tracker-chi-dun-13.vercel.app/reset-password/126209217ed260ad269831136b0effb2a025f6d1
   
   useEffect(() => {
     const publicRoutes = ["/", "/login", "/signup" , "/ask" , "/forgetpassword" , "/verify-email" , `/reset-password/${params.id}` ];
