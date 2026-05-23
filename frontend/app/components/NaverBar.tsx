@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { use, useEffect } from "react";
 import { IoHomeOutline, IoLogInOutline } from "react-icons/io5";
 import { MdOutlineAccountBalanceWallet, MdOutlinePersonAdd } from "react-icons/md";
@@ -9,13 +9,16 @@ import { setErrorMessage } from "../store/slice/userSlice";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
+  let params = useParams();
   let { user, errorMesaage } = useSelector((state: any) => state.user);
   const router = useRouter();
   let pathname = usePathname();
   let dispatch = useDispatch()
 
+//  https://expense-tracker-chi-dun-13.vercel.app/reset-password/126209217ed260ad269831136b0effb2a025f6d1
+  
   useEffect(() => {
-    const publicRoutes = ["/", "/login", "/signup" , "/ask" , "/forgetpassword" , "/verify-email"];
+    const publicRoutes = ["/", "/login", "/signup" , "/ask" , "/forgetpassword" , "/verify-email" , `/reset-password/${params.id}` ];
 
     if (!user && !publicRoutes.includes(pathname)) {
       router.push("/");
