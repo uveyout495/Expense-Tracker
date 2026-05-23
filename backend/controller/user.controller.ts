@@ -221,3 +221,33 @@ export const loadUser = async (req: Request, res: Response) => {
 }
 
 
+
+export const allUsers = async (req: Request, res: Response) => {
+    try {
+        let users = await User.find().select("-password -resetPasswordToken -resetPasswordExpire -verifyPasswordToken")
+        return res.status(200).json({ success: true, users })
+    } catch (error) {
+        console.log("Error In allUsers Controller", error.message)
+        return res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}
+
+export const updateUserRole = async (req: Request, res: Response) => {
+    try {
+        let { id } = req.params
+        let { role } = req.body
+
+        let user = await User.findByIdAndUpdate(id, { role }, { new: true }).select("-password -resetPasswordToken -resetPasswordExpire -verifyPasswordToken")
+        if (!user) {
+            return res.status(400).json({ success: false, message: "User not found" })
+        }
+
+        return res.status(200).json({ success: true, user })
+    } catch (error) {
+        console.log("Error In updateUserRole Controller", error.message)
+        return res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}
+
+
+

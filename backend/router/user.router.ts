@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, response, Response } from "express"
-import { forgetUser, loadUser, loginUser, logoutUser, registerUser, resetPassword, verifyUser } from "../controller/user.controller"
+import { allUsers, forgetUser, loadUser, loginUser, logoutUser, registerUser, resetPassword, updateUserRole, verifyUser } from "../controller/user.controller"
 import { protectRouter } from "../middleware/protect.router"
 import EnvVars from "../config/EnvVars"
 import passport from "passport";
@@ -14,6 +14,11 @@ router.post("/forget" , forgetUser)
 router.post("/resetPass/:token" , resetPassword)
 router.post("/login" , loginUser)
 router.post("/logout" , logoutUser)
+
+
+// Admin Routes
+router.get("/admin/allUser" , allUsers)
+router.put("/admin/updateRole/:id" , updateUserRole),
 
 
 router.get("/google", passport.authenticate("google", {
