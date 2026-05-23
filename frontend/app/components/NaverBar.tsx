@@ -15,7 +15,7 @@ const Navbar = () => {
   let dispatch = useDispatch()
 
   useEffect(() => {
-    const publicRoutes = ["/", "/login", "/signup" , "/ask"];
+    const publicRoutes = ["/", "/login", "/signup" , "/ask" , "/forgetpassword" , "/verify-email"];
 
     if (!user && !publicRoutes.includes(pathname)) {
       router.push("/");
