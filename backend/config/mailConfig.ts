@@ -3,7 +3,6 @@ import nodemailer from 'nodemailer';
 import EnvVars from './EnvVars';
 
 const transporter = nodemailer.createTransport({
-    // service: "gmail",
     host: "smtp.gmail.com",
     port: 587,
     secure: false,
@@ -33,7 +32,7 @@ const sendEmail = async (to: string, subject: string, body: string) => {
 
 
 export const sendVerificationToEmail = async (to: string, token: string) => {
-    let verificationUrl = `${EnvVars.FRONTEND_URL}/verify-email/${token}`
+    let verificationUrl = `https://expense-tracker-chi-dun-13.vercel.app/verify-email/${token}`
 
     let html =
         `
@@ -50,7 +49,7 @@ export const sendVerificationToEmail = async (to: string, token: string) => {
 
 
 export const sendResetPassToEmail = async (to: string, token: string) => {
-    let resetUrl = `${EnvVars.FRONTEND_URL}/reset-password/${token}`
+    let resetUrl = `https://expense-tracker-chi-dun-13.vercel.app/reset-password/${token}`
 
     let html =
         `
