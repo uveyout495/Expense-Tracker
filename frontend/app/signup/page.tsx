@@ -26,7 +26,7 @@ const Signup = () => {
         confirmPassword: "",
     })
 
-    // 👇 NEW LOGIC
+    
     let [showVerifyUI, setShowVerifyUI] = useState(false)
 
     let changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,15 +87,15 @@ const Signup = () => {
 
     if (showVerifyUI) {
         return (
-            <div className="min-h-screen w-full flex items-center p-7 justify-center bg-gradient-to-br from-black via-[#07122b] to-[#0b1f46] px-4 overflow-hidden relative">
+            <div className="min-h-screen w-full flex items-center p-7 justify-center px-4 overflow-hidden relative">
 
                 {/* Glow Effects */}
                 <div className="absolute top-[-100px] left-[-100px] h-72 w-72 bg-yellow-400/20 blur-3xl rounded-full"></div>
 
-                <div className="absolute bottom-[-100px] right-[-100px] h-72 w-72 bg-blue-500/20 blur-3xl rounded-full"></div>
+                <div className="absolute bottom-[-100px] right-[-100px] h-72 w-72 bg-blue-500/20 blur-3xl "></div>
 
                 {/* Card */}
-                <div className="relative z-10 w-full max-w-lg rounded-3xl border border-white/10 bg-white/10 backdrop-blur-2xl shadow-2xl p-8 md:p-10 text-center">
+                <div className="relative z-10 w-full max-w-lg rounded-xl border border-white/10 bg-white/10 backdrop-blur-2xl shadow-2xl p-8 md:p-10 text-center">
 
                     {/* Icon */}
                     <div className="flex justify-center">
