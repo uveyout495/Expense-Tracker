@@ -122,7 +122,7 @@ const HeroPage = () => {
             }}
             className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight"
           >
-            Daily Hisab......,
+            Daily Hisab,
             <br />
 
             <span className="text-yellow-400">
