@@ -32,7 +32,7 @@ const sendEmail = async (to: string, subject: string, body: string) => {
 
 
 export const sendVerificationToEmail = async (to: string, token: string) => {
-    const verificationUrl = `https://expense-tracker-chi-dun-13.vercel.app/verify-email/${token}`
+    const verificationUrl = `https://expense-tracker-1-qq8d.onrender.com/verify-email/${token}`
 
     const html = `
     <div style="
@@ -133,7 +133,7 @@ export const sendVerificationToEmail = async (to: string, token: string) => {
 
 
 export const sendResetPassToEmail = async (to: string, token: string) => {
-    const resetUrl = `https://expense-tracker-chi-dun-13.vercel.app/reset-password/${token}`
+    const resetUrl = `https://expense-tracker-1-qq8d.onrender.com/reset-password/${token}`
 
     const html = `
     <div style="
