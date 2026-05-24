@@ -10,6 +10,8 @@ export const addBalance = async (req: Request, res: Response) => {
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
 
+        console.log("User ID in addBalance controller:", userId);
+
         let user = await User.findById(userId).select("-password")
         if (!user) {
             return res.status(401).json({ success: false, message: "User not found" });
