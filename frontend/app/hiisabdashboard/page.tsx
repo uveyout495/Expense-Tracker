@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -49,19 +50,33 @@ const HiisabDashboard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const pathname = usePathname();
+
   const { data } = useLoaderUserQuery({});
-  const { user } = useSelector((state: any) => state.user);
+
+  const { user } = useSelector(
+    (state: any) => state.user
+  );
+
   const [text, setText] = useState("All");
-  const [searchText, setSearchText] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
 
-  const [totalExpanceFilter, setTotalExpanceFilter] =
+  const [searchText, setSearchText] =
+    useState("");
+
+  const [darkMode, setDarkMode] =
+    useState(false);
+
+  const [
+    totalExpanceFilter,
+    setTotalExpanceFilter,
+  ] = useState<any>([]);
+
+  const [
+    thisMonthFilter,
+    setThisMonthFilter,
+  ] = useState<any>([]);
+
+  const [todayExpance, setTodayExpance] =
     useState<any>([]);
-
-  const [thisMonthFilter, setThisMonthFilter] =
-    useState<any>([]);
-
-  const [todayExpance, setTodayExpance] = useState<any>([]);
 
   // AUTO DETECT SYSTEM THEME
   useEffect(() => {
@@ -75,10 +90,16 @@ const HiisabDashboard = () => {
       setDarkMode(e.matches);
     };
 
-    mediaQuery.addEventListener("change", handler);
+    mediaQuery.addEventListener(
+      "change",
+      handler
+    );
 
     return () =>
-      mediaQuery.removeEventListener("change", handler);
+      mediaQuery.removeEventListener(
+        "change",
+        handler
+      );
   }, []);
 
   // APIs
@@ -119,6 +140,11 @@ const HiisabDashboard = () => {
     },
   ] = useDeleteExpanceMutation();
 
+  console.log(
+    "Today Expance Data:",
+    todayExpanceData
+  );
+
   // AUTH CHECK
   useEffect(() => {
     const publicRoutes = [
@@ -128,7 +154,10 @@ const HiisabDashboard = () => {
       "/ask",
     ];
 
-    if (!user && !publicRoutes.includes(pathname)) {
+    if (
+      !user &&
+      !publicRoutes.includes(pathname)
+    ) {
       router.push("/");
 
       dispatch(setErrorMessage(true));
@@ -137,7 +166,12 @@ const HiisabDashboard = () => {
         "Please sign in to access this page"
       );
     }
-  }, [user, pathname, router, dispatch]);
+  }, [
+    user,
+    pathname,
+    router,
+    dispatch,
+  ]);
 
   // LOGOUT
   const onClickLogoutHander = async (
@@ -146,9 +180,13 @@ const HiisabDashboard = () => {
     if (text === "Logout") {
       await logoutUser({});
 
-      dispatch(setUser({ user: null }));
+      dispatch(
+        setUser({ user: null })
+      );
 
-      toast.success("Logged Out successfully");
+      toast.success(
+        "Logged Out successfully"
+      );
     }
   };
 
@@ -168,11 +206,17 @@ const HiisabDashboard = () => {
   // EFFECTS
   useEffect(() => {
     if (logoutData) {
-      console.log("Logout Success", logoutData);
+      console.log(
+        "Logout Success",
+        logoutData
+      );
     }
 
     if (isLogoutError) {
-      console.log("Logout Error", logoutError);
+      console.log(
+        "Logout Error",
+        logoutError
+      );
     }
 
     if (isLogoutSuccess) {
@@ -202,7 +246,8 @@ const HiisabDashboard = () => {
     const expances =
       totalExpanceData?.expances?.filter(
         (expance: any) => {
-          if (!searchText) return true;
+          if (!searchText)
+            return true;
 
           return (
             expance?.item
@@ -220,7 +265,9 @@ const HiisabDashboard = () => {
               .includes(
                 searchText.toLowerCase()
               ) ||
-            expance?.date?.includes(searchText)
+            expance?.date?.includes(
+              searchText
+            )
           );
         }
       );
@@ -236,7 +283,8 @@ const HiisabDashboard = () => {
     const expances =
       ThisMonthData?.data?.expances?.filter(
         (expance: any) => {
-          if (!searchText) return true;
+          if (!searchText)
+            return true;
 
           return (
             expance?.item
@@ -254,7 +302,9 @@ const HiisabDashboard = () => {
               .includes(
                 searchText.toLowerCase()
               ) ||
-            expance?.date?.includes(searchText)
+            expance?.date?.includes(
+              searchText
+            )
           );
         }
       );
@@ -265,12 +315,18 @@ const HiisabDashboard = () => {
     ThisMonthData?.data?.expances,
   ]);
 
-  // TODAY FILTER
+  // TODAY FILTER FIXED
   useEffect(() => {
+    if (!todayExpanceData?.data) {
+      setTodayExpance([]);
+      return;
+    }
+
     const expances =
-      todayExpanceData?.data?.expances?.filter(
+      todayExpanceData.data.filter(
         (expance: any) => {
-          if (!searchText) return true;
+          if (!searchText)
+            return true;
 
           return (
             expance?.item
@@ -288,7 +344,9 @@ const HiisabDashboard = () => {
               .includes(
                 searchText.toLowerCase()
               ) ||
-            expance?.date?.includes(searchText)
+            expance?.date?.includes(
+              searchText
+            )
           );
         }
       );
@@ -296,7 +354,7 @@ const HiisabDashboard = () => {
     setTodayExpance(expances);
   }, [
     searchText,
-    todayExpanceData?.data?.expances,
+    todayExpanceData,
   ]);
 
   // EMPTY MESSAGE
@@ -307,30 +365,34 @@ const HiisabDashboard = () => {
   }) => (
     <div className="flex flex-col items-center justify-center py-16">
       <div
-        className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${darkMode
-          ? "bg-gray-700 text-white"
-          : "bg-red-100 text-black"
-          }`}
+        className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${
+          darkMode
+            ? "bg-gray-700 text-white"
+            : "bg-red-100 text-black"
+        }`}
       >
         📭
       </div>
 
       <h2
-        className={`mt-4 text-lg font-semibold ${darkMode
-          ? "text-white"
-          : "text-gray-700"
-          }`}
+        className={`mt-4 text-lg font-semibold ${
+          darkMode
+            ? "text-white"
+            : "text-gray-700"
+        }`}
       >
         No Expenses Found
       </h2>
 
       <p
-        className={`text-sm mt-1 text-center px-4 ${darkMode
-          ? "text-gray-300"
-          : "text-gray-500"
-          }`}
+        className={`text-sm mt-1 text-center px-4 ${
+          darkMode
+            ? "text-gray-300"
+            : "text-gray-500"
+        }`}
       >
-        You haven&apos;t added any expenses for{" "}
+        You haven't added any expenses
+        for{" "}
         <span className="font-medium">
           {label}
         </span>
@@ -365,28 +427,31 @@ const HiisabDashboard = () => {
   // GET CURRENT DATA
   const currentData =
     text === "Today"
-      ? todayExpance
+      ? todayExpance || []
       : text === "This Monthly"
-        ? thisMonthFilter
+        ? thisMonthFilter || []
         : text === "This Yearly"
-          ? ThisYearData?.data?.expances
-          : totalExpanceFilter;
+          ? ThisYearData?.data
+              ?.expances || []
+          : totalExpanceFilter || [];
 
   return !data?.user ? (
     <AccessDenied />
   ) : (
     <div
-      className={`min-h-screen flex flex-col lg:flex-row transition-all duration-300 ${darkMode
-        ? "bg-[#0f172a] text-white"
-        : "bg-gray-100 text-black"
-        }`}
+      className={`min-h-screen flex flex-col lg:flex-row transition-all duration-300 ${
+        darkMode
+          ? "bg-[#0f172a] text-white"
+          : "bg-gray-100 text-black"
+      }`}
     >
       {/* SIDEBAR */}
       <div
-        className={`w-full lg:w-[260px] p-4 ${darkMode
-          ? "bg-[#020617]"
-          : "bg-black text-white"
-          }`}
+        className={`w-full lg:w-[260px] p-4 ${
+          darkMode
+            ? "bg-[#020617]"
+            : "bg-black text-white"
+        }`}
       >
         {/* HEADER */}
         <div className="flex items-center justify-between mb-6">
@@ -399,62 +464,71 @@ const HiisabDashboard = () => {
             onClick={() =>
               setDarkMode(!darkMode)
             }
-            className={`p-2 rounded-lg transition-all duration-200 ${darkMode
-              ? "bg-gray-700 text-yellow-300"
-              : "bg-gray-200 text-black"
-              }`}
+            className={`p-2 rounded-lg transition-all duration-200 ${
+              darkMode
+                ? "bg-gray-700 text-yellow-300"
+                : "bg-gray-200 text-black"
+            }`}
           >
             {darkMode ? (
               <BsSunFill size={18} />
             ) : (
-              <BsMoonStarsFill size={18} />
+              <BsMoonStarsFill
+                size={18}
+              />
             )}
           </button>
         </div>
 
         {/* MENU */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-3">
-          {sidebarItems.map((item, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setText(item.label);
+          {sidebarItems.map(
+            (item, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setText(item.label);
 
-                item.label === "Logout" &&
-                  onClickLogoutHander(
-                    item.label
-                  );
+                  item.label ===
+                    "Logout" &&
+                    onClickLogoutHander(
+                      item.label
+                    );
 
-                item.label === "Today" &&
-                  refetchTodayExpance();
+                  item.label ===
+                    "Today" &&
+                    refetchTodayExpance();
 
-                item.label ===
-                  "This Monthly" &&
-                  refetchThisMonth();
+                  item.label ===
+                    "This Monthly" &&
+                    refetchThisMonth();
 
-                item.label ===
-                  "This Yearly" &&
-                  refetchThisYear();
+                  item.label ===
+                    "This Yearly" &&
+                    refetchThisYear();
 
-                item.label === "All" &&
-                  refetchTotalExpance();
-              }}
-              className={`flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${text === item.label
-                ? darkMode
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-black"
-                : darkMode
-                  ? "bg-slate-800 hover:bg-slate-700"
-                  : "bg-gray-900 hover:bg-gray-800"
+                  item.label ===
+                    "All" &&
+                    refetchTotalExpance();
+                }}
+                className={`flex items-center justify-center lg:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  text === item.label
+                    ? darkMode
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-black"
+                    : darkMode
+                      ? "bg-slate-800 hover:bg-slate-700"
+                      : "bg-gray-900 hover:bg-gray-800"
                 }`}
-            >
-              {item.icon}
+              >
+                {item.icon}
 
-              <span className="hidden sm:block">
-                {item.label}
-              </span>
-            </button>
-          ))}
+                <span className="hidden sm:block">
+                  {item.label}
+                </span>
+              </button>
+            )
+          )}
         </div>
       </div>
 
@@ -464,68 +538,82 @@ const HiisabDashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* CARD 1 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${darkMode
-              ? "bg-slate-800"
-              : "bg-white"
-              }`}
+            className={`rounded-2xl p-5 shadow-sm ${
+              darkMode
+                ? "bg-slate-800"
+                : "bg-white"
+            }`}
           >
             <h2
-              className={`text-sm ${darkMode
-                ? "text-gray-300"
-                : "text-gray-500"
-                }`}
+              className={`text-sm ${
+                darkMode
+                  ? "text-gray-300"
+                  : "text-gray-500"
+              }`}
             >
               Total Expense
             </h2>
 
             <p className="text-3xl font-bold text-red-500 mt-2">
-              ₹{totalExpanceData?.data || 0}
+              ₹
+              {totalExpanceData?.data ||
+                0}
             </p>
           </div>
 
           {/* CARD 2 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${darkMode
-              ? "bg-slate-800"
-              : "bg-white"
-              }`}
+            className={`rounded-2xl p-5 shadow-sm ${
+              darkMode
+                ? "bg-slate-800"
+                : "bg-white"
+            }`}
           >
             <h2
-              className={`text-sm ${darkMode
-                ? "text-gray-300"
-                : "text-gray-500"
-                }`}
+              className={`text-sm ${
+                darkMode
+                  ? "text-gray-300"
+                  : "text-gray-500"
+              }`}
             >
               This Month
             </h2>
 
             <p className="text-3xl font-bold text-blue-500 mt-2">
               ₹
-              {ThisMonthData?.data?.total ||
-                0}
+              {ThisMonthData?.data
+                ?.total || 0}
             </p>
           </div>
 
           {/* CARD 3 */}
           <div
-            className={`rounded-2xl p-5 shadow-sm ${darkMode
-              ? "bg-slate-800"
-              : "bg-white"
-              }`}
+            className={`rounded-2xl p-5 shadow-sm ${
+              darkMode
+                ? "bg-slate-800"
+                : "bg-white"
+            }`}
           >
             <h2
-              className={`text-sm ${darkMode
-                ? "text-gray-300"
-                : "text-gray-500"
-                }`}
+              className={`text-sm ${
+                darkMode
+                  ? "text-gray-300"
+                  : "text-gray-500"
+              }`}
             >
               Today
             </h2>
 
             <p className="text-3xl font-bold text-green-500 mt-2">
               ₹
-              {todayExpanceData?.data
-                ?.total || 0}
+              {todayExpance?.reduce(
+                (
+                  acc: number,
+                  item: any
+                ) =>
+                  acc + item.price,
+                0
+              ) || 0}
             </p>
           </div>
         </div>
@@ -538,10 +626,11 @@ const HiisabDashboard = () => {
             </h2>
 
             <p
-              className={`text-sm mt-1 ${darkMode
-                ? "text-gray-400"
-                : "text-gray-500"
-                }`}
+              className={`text-sm mt-1 ${
+                darkMode
+                  ? "text-gray-400"
+                  : "text-gray-500"
+              }`}
             >
               Manage your daily expenses
             </p>
@@ -556,31 +645,84 @@ const HiisabDashboard = () => {
                   e.target.value
                 )
               }
-              className={`px-4 py-3 rounded-xl outline-none ${darkMode
-                ? "bg-slate-800 border border-slate-700 text-white"
-                : "bg-black text-white"
-                }`}
+              className={`px-4 py-3 rounded-xl outline-none ${
+                darkMode
+                  ? "bg-slate-800 border border-slate-700 text-white"
+                  : "bg-black text-white"
+              }`}
             >
               <option value="">
                 Select Category
               </option>
-              <option value="food">Food</option>
-              <option value="fruits">Fruits</option>
-              <option value="donations">Donations</option>
-              <option value="movies">Movies</option>
-              <option value="fast_foods">Fast Foods</option>
-              <option value="EMIs">EMIs</option>
-              <option value="transport">Transport</option>
-              <option value="diesel">Diesel</option>
-              <option value="petrol">Petrol</option>
-              <option value="shopping">Shopping</option>
-              <option value="shopping">Cloths</option>
-              <option value="bills">Bills</option>
-              <option value="recharge">Recharge</option>
-              <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
-              <option value="medical">Medical</option>
-              <option value="gym">Gym</option>
-              <option value="other">Other</option>
+
+              <option value="food">
+                Food
+              </option>
+
+              <option value="fruits">
+                Fruits
+              </option>
+
+              <option value="donations">
+                Donations
+              </option>
+
+              <option value="movies">
+                Movies
+              </option>
+
+              <option value="fast_foods">
+                Fast Foods
+              </option>
+
+              <option value="EMIs">
+                EMIs
+              </option>
+
+              <option value="transport">
+                Transport
+              </option>
+
+              <option value="diesel">
+                Diesel
+              </option>
+
+              <option value="petrol">
+                Petrol
+              </option>
+
+              <option value="shopping">
+                Shopping
+              </option>
+
+              <option value="cloths">
+                Cloths
+              </option>
+
+              <option value="bills">
+                Bills
+              </option>
+
+              <option value="recharge">
+                Recharge
+              </option>
+
+              <option value="extra/Advance Amount Given">
+                Extra/Advance Amount
+                Given
+              </option>
+
+              <option value="medical">
+                Medical
+              </option>
+
+              <option value="gym">
+                Gym
+              </option>
+
+              <option value="other">
+                Other
+              </option>
             </select>
 
             {/* SEARCH */}
@@ -593,16 +735,19 @@ const HiisabDashboard = () => {
                 )
               }
               placeholder="Search..."
-              className={`px-4 py-3 rounded-xl border outline-none ${darkMode
-                ? "bg-slate-800 border-slate-700 text-white"
-                : "bg-white"
-                }`}
+              className={`px-4 py-3 rounded-xl border outline-none ${
+                darkMode
+                  ? "bg-slate-800 border-slate-700 text-white"
+                  : "bg-white"
+              }`}
             />
 
             {/* ADD BUTTON */}
             <button
               onClick={() =>
-                navigate.push("/expance")
+                navigate.push(
+                  "/expance"
+                )
               }
               className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl"
             >
@@ -615,66 +760,91 @@ const HiisabDashboard = () => {
 
         {/* DESKTOP TABLE */}
         <div
-          className={`hidden lg:block mt-6 rounded-2xl overflow-hidden shadow-sm ${darkMode
-            ? "bg-slate-800"
-            : "bg-white"
-            }`}
+          className={`hidden lg:block mt-6 rounded-2xl overflow-hidden shadow-sm ${
+            darkMode
+              ? "bg-slate-800"
+              : "bg-white"
+          }`}
         >
           {/* TABLE HEADER */}
           <div
-            className={`grid grid-cols-7 p-4 font-semibold text-sm ${darkMode
-              ? "bg-slate-700"
-              : "bg-gray-200"
-              }`}
+            className={`grid grid-cols-7 p-4 font-semibold text-sm ${
+              darkMode
+                ? "bg-slate-700"
+                : "bg-gray-200"
+            }`}
           >
             <div>Item</div>
+
             <div>Price</div>
+
             <div>Category</div>
+
             <div>Payment</div>
+
             <div>Date</div>
+
             <div>Notes</div>
+
             <div>Remove</div>
           </div>
 
           {/* TABLE BODY */}
           {currentData?.length > 0 ? (
             currentData.map(
-              (row: any, i: number) => (
+              (
+                row: any,
+                i: number
+              ) => (
                 <div
                   key={i}
-                  onClick={() => navigate.push(`/hiisabdashboard/${row._id}`)}
-                  className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${darkMode
-                    ? "border-slate-700 hover:bg-slate-700"
-                    : "hover:bg-gray-50"
-                    }`}
+                  onClick={() =>
+                    navigate.push(
+                      `/hiisabdashboard/${row._id}`
+                    )
+                  }
+                  className={`grid grid-cols-7 p-4 border-t text-sm transition-all duration-200 ${
+                    darkMode
+                      ? "border-slate-700 hover:bg-slate-700"
+                      : "hover:bg-gray-50"
+                  }`}
                 >
-                  <div>{row.item}</div>
+                  <div>
+                    {row.item}
+                  </div>
 
                   <div>
                     ₹{row.price}
                   </div>
 
                   <div className="truncate pr-2">
-                    {
-                      row.expanceCategory.toUpperCase()[0] +
-                      row.expanceCategory.slice(1)
-                    }
+                    {row.expanceCategory.toUpperCase()[0] +
+                      row.expanceCategory.slice(
+                        1
+                      )}
                   </div>
 
                   <div>
-                    {
-                      row.paymentMethod.toUpperCase()[0] +
-                      row.paymentMethod.slice(1)
-                    }
+                    {row.paymentMethod.toUpperCase()[0] +
+                      row.paymentMethod.slice(
+                        1
+                      )}
                   </div>
 
                   <div>
-                    {new Date(row.date).toLocaleDateString("en-IN", {
-                      weekday: "short",
-                      year: "2-digit",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {new Date(
+                      row.date
+                    ).toLocaleDateString(
+                      "en-IN",
+                      {
+                        weekday:
+                          "short",
+                        year: "2-digit",
+                        month:
+                          "long",
+                        day: "numeric",
+                      }
+                    )}
                   </div>
 
                   <div className="truncate">
@@ -685,18 +855,25 @@ const HiisabDashboard = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        onClickDeleteExpance(row._id);
+
+                        onClickDeleteExpance(
+                          row._id
+                        );
                       }}
                       className="text-red-500 hover:bg-red-100 hover:text-red-600 p-2 rounded-lg"
                     >
-                      <BsXLg size={16} />
+                      <BsXLg
+                        size={16}
+                      />
                     </button>
                   </div>
                 </div>
               )
             )
           ) : (
-            <EmptyMessage label={text} />
+            <EmptyMessage
+              label={text}
+            />
           )}
         </div>
 
@@ -704,14 +881,22 @@ const HiisabDashboard = () => {
         <div className="lg:hidden mt-6 flex flex-col gap-4">
           {currentData?.length > 0 ? (
             currentData.map(
-              (row: any, i: number) => (
+              (
+                row: any,
+                i: number
+              ) => (
                 <div
                   key={i}
-                  onClick={() => navigate.push(`/hiisabdashboard/${row._id}`)}
-                  className={`rounded-2xl shadow-sm p-4 ${darkMode
-                    ? "bg-slate-800"
-                    : "bg-white"
-                    }`}
+                  onClick={() =>
+                    navigate.push(
+                      `/hiisabdashboard/${row._id}`
+                    )
+                  }
+                  className={`rounded-2xl shadow-sm p-4 ${
+                    darkMode
+                      ? "bg-slate-800"
+                      : "bg-white"
+                  }`}
                 >
                   {/* TOP */}
                   <div className="flex items-start justify-between">
@@ -721,18 +906,24 @@ const HiisabDashboard = () => {
                       </h3>
 
                       <p className="text-green-500 font-semibold mt-1">
-                        ₹{row.price}
+                        ₹
+                        {row.price}
                       </p>
                     </div>
 
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        onClickDeleteExpance(row._id);
+
+                        onClickDeleteExpance(
+                          row._id
+                        );
                       }}
                       className="text-red-500"
                     >
-                      <BsXLg size={18} />
+                      <BsXLg
+                        size={18}
+                      />
                     </button>
                   </div>
 
@@ -768,12 +959,21 @@ const HiisabDashboard = () => {
                       </p>
 
                       <p>
-                        {new Date(row.date).toLocaleDateString("en-IN", {
-                          weekday: "short",
-                          year: "2-digit",
-                          month: "long",
-                          day: "numeric",
-                        })}</p>
+                        {new Date(
+                          row.date
+                        ).toLocaleDateString(
+                          "en-IN",
+                          {
+                            weekday:
+                              "short",
+                            year:
+                              "2-digit",
+                            month:
+                              "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </p>
                     </div>
 
                     <div>
@@ -781,14 +981,18 @@ const HiisabDashboard = () => {
                         Notes
                       </p>
 
-                      <p>{row.notes}</p>
+                      <p>
+                        {row.notes}
+                      </p>
                     </div>
                   </div>
                 </div>
               )
             )
           ) : (
-            <EmptyMessage label={text} />
+            <EmptyMessage
+              label={text}
+            />
           )}
         </div>
       </div>
@@ -797,3 +1001,4 @@ const HiisabDashboard = () => {
 };
 
 export default HiisabDashboard;
+

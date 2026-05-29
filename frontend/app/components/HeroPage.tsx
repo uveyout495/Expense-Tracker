@@ -17,6 +17,8 @@ import { setErrorMessage } from "../store/slice/userSlice";
 
 import { toast } from "react-toastify";
 
+
+
 const HeroPage = () => {
   const navigate = useRouter();
 
@@ -28,6 +30,8 @@ const HeroPage = () => {
   const { user } = useSelector(
     (state: any) => state.user
   );
+
+  console.log(todayExpance?.data);
 
   // ================= CHANGING TEXT =================
   const texts = [
@@ -268,9 +272,9 @@ const HeroPage = () => {
         {/* EXPENSE LIST */}
         <ul className="space-y-2 text-xs sm:text-sm">
 
-          {todayExpance?.data?.expances
+          {todayExpance?.data
             ?.length > 0 ? (
-            todayExpance?.data?.expances?.map(
+            todayExpance?.data?.map(
               (
                 item: any,
                 index: number

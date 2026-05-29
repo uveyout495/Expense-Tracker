@@ -368,33 +368,29 @@ export const getThisYearExpance = async (req: Request, res: Response) => {
 
 export const getTodayExpance = async (req: Request, res: Response) => {
     try {
-        let userId = (req.user as any)?._id
-        let expances = await Expance.find({ userId })
-        if (!expances) {
-            return res.status(400).json({ success: false, message: "Expance not found" })
-        }
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
 
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
 
-        // Learning part   
-        let todayExpance = expances.filter((expance) => {
-            let expanceData = new Date(expance.date)
-            let currentDate = new Date()
-            return expanceData.getDay() === currentDate.getDay()
-        })
-
-        let total = todayExpance.reduce((sum, expance) => sum + expance.price, 0)
+        const expenses = await Expance.find({
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
 
         res.status(200).json({
             success: true,
-            message: "This year expance retrieved successfully",
-            data: {
-                total,
-                expances: todayExpance
-            }
-        })
+            data: expenses
+        });
 
     } catch (error) {
-        console.log("Error in getTodayExpance controller: ", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
     }
-}
+};
