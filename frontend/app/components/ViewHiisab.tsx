@@ -1,155 +1,163 @@
-"use client"
-import { useRouter } from 'next/navigation'
-import React from 'react'
-import { GiCalendarHalfYear } from 'react-icons/gi'
-import { IoTodayOutline } from 'react-icons/io5'
-import { MdCalendarMonth } from 'react-icons/md'
+"use client";
+
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { GiCalendarHalfYear } from "react-icons/gi";
+import { IoTodayOutline } from "react-icons/io5";
+import { MdCalendarMonth } from "react-icons/md";
+
 import {
   useGetThisMonthExpanceQuery,
   useGetThisYearExpanceQuery,
-  useGetTodayExpanceQuery
-} from '../store/api/expanceApi'
-import { useSelector } from 'react-redux'
+  useGetTodayExpanceQuery,
+} from "../store/api/expanceApi";
 
 const ViewHiisab = () => {
+  const navigate = useRouter();
+  const { user } = useSelector((state: any) => state.user);
 
-  const navigate = useRouter()
-  const { user } = useSelector((state: any) => state.user)
+  const { data: todayExpanceData } = useGetTodayExpanceQuery({});
+  const { data: thisMonthData } = useGetThisMonthExpanceQuery({}, { skip: !user });
+  const { data: thisYearData } = useGetThisYearExpanceQuery({}, { skip: !user });
 
- 
-  const { data: ThisYearData } = useGetThisYearExpanceQuery({}, { skip: !user })
-  const { data: todayExpanceData } = useGetTodayExpanceQuery({}, { skip: !user })
-  const { data: ThisMonthData } = useGetThisMonthExpanceQuery({}, { skip: !user })
+  const todayTotal =
+    todayExpanceData?.data?.reduce(
+      (acc: number, item: any) => acc + (item?.price || 0),
+      0
+    ) || 0;
 
-  
+  const monthTotal = thisMonthData?.data?.total || 0;
+  const yearTotal = thisYearData?.data?.total || 0;
+
   if (!user) {
     return (
-      <div className="min-h-[80vh] bg-gradient-to-br from-gray-500 via-gray-950 to-black flex items-center justify-center px-6">
+      <div className="min-h-screen flex items-center justify-center bg-black text-white px-6">
+        <div className="text-center max-w-xl">
 
-        <div className="text-center text-white max-w-xl">
+          <div className="text-5xl mb-4">💰</div>
 
-          
-          <div className="mb-6 flex justify-center">
-            <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-lg flex items-center justify-center text-3xl shadow-lg">
-              💰
-            </div>
-          </div>
-
-          
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-            Manage Your Money <br /> Like a Pro
+          <h1 className="text-4xl font-bold">
+            Manage Your Money Like a Pro
           </h1>
 
-         
-          <p className="text-white/80 text-sm md:text-base mb-8">
-            Track your daily, monthly, and yearly expenses in one place.
-            Stay in control of your finances with Hiisab.
+          <p className="text-white/60 mt-4">
+            Track your daily, monthly, and yearly expenses in one simple dashboard.
           </p>
 
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex gap-4 justify-center mt-8">
 
             <button
               onClick={() => navigate.push("/login")}
-              className="px-6 py-3 rounded-xl bg-white text-indigo-600 font-semibold hover:scale-105 transition shadow-lg"
+              className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-xl hover:scale-105 transition"
             >
-              Get Started
+              Login
             </button>
 
             <button
               onClick={() => navigate.push("/signup")}
-              className="px-6 py-3 rounded-xl border border-white/40 hover:bg-white/10 transition"
+              className="px-6 py-3 border border-white/20 rounded-xl hover:bg-white/10 transition"
             >
-              Create Account
+              Signup
             </button>
 
           </div>
 
-          {/* Footer text */}
-          <p className="mt-6 text-xs text-white/60">
-            No credit card required • Free to use
-          </p>
-
         </div>
-
       </div>
-    )
+    );
   }
-
 
   const cards = [
     {
       title: "Today",
-      subtitle: "Expenses",
-      amount: `₹${todayExpanceData?.data?.total || 0}`,
-      icon: <IoTodayOutline size={26} />,
-      color: "from-blue-500 to-blue-400",
-      link: "/hiisabdashboard"
+      amount: todayTotal,
+      icon: <IoTodayOutline size={24} />,
+      color: "from-blue-500 to-cyan-400",
+      link: "/hiisabdashboard",
     },
     {
       title: "Monthly",
-      subtitle: "Expenses",
-      amount: `₹${ThisMonthData?.data?.total || 0}`,
-      icon: <MdCalendarMonth size={26} />,
+      amount: monthTotal,
+      icon: <MdCalendarMonth size={24} />,
       color: "from-green-500 to-emerald-400",
-      link: "/hiisabdashboard"
+      link: "/hiisabdashboard",
     },
     {
       title: "Yearly",
-      subtitle: "Expenses",
-      amount: `₹${ThisYearData?.data?.total || 0}`,
-      icon: <GiCalendarHalfYear size={26} />,
+      amount: yearTotal,
+      icon: <GiCalendarHalfYear size={24} />,
       color: "from-purple-500 to-indigo-400",
-      link: "/hiisabdashboard"
-    }
-  ]
+      link: "/hiisabdashboard",
+    },
+  ];
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 min-h-[10vh]">
+    <div className="bg-[#050505] text-white  p-10 relative overflow-hidden">
 
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 tracking-tight">
-        💰 Hiisab Dashboard
-      </h1>
+      
+      <div className="absolute w-[600px] h-[600px] bg-yellow-500/10 blur-[140px] top-[-200px] left-[-200px]" />
+      <div className="absolute w-[500px] h-[500px] bg-purple-500/10 blur-[140px] bottom-[-200px] right-[-200px]" />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cards.map((card, index) => (
+      
+      <div className="px-8">
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">
+          Your Expense Overview
+        </h2>
+
+        <p className="text-white/50 mt-2 text-sm">
+          Track daily, monthly & yearly spending with clarity
+        </p>
+      </div>
+
+      {/* CARDS */}
+      <div className="px-8 mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        {cards.map((c, i) => (
           <div
-            key={index}
-            onClick={() => navigate.push(card.link)}
-            className="relative rounded-2xl p-[1px] bg-gradient-to-r hover:scale-[1.03] transition duration-300 cursor-pointer"
+            key={i}
+            onClick={() => navigate.push(c.link)}
+            className="group relative cursor-pointer rounded-2xl p-[1px] bg-gradient-to-r from-white/10 via-white/5 to-white/10 hover:scale-[1.07] transition duration-300"
           >
-            <div className="bg-white rounded-2xl p-5 flex items-center justify-between shadow-md hover:shadow-xl">
 
+            {/* glow border animation */}
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-yellow-400/20 via-transparent to-purple-400/20 blur-xl"></div>
+
+            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-lg group-hover:shadow-2xl transition-all">
+
+              {/* TOP */}
               <div className="flex items-center gap-4">
+
                 <div
-                  className={`text-white p-3 rounded-xl bg-gradient-to-r ${card.color} shadow-md`}
+                  className={`p-4 rounded-xl bg-gradient-to-r ${c.color} shadow-md group-hover:scale-110 transition`}
                 >
-                  {card.icon}
+                  {c.icon}
                 </div>
 
                 <div>
-                  <p className="text-gray-400 text-xs uppercase tracking-wide">
-                    {card.title}
+                  <p className="text-white/50 text-xs uppercase tracking-wider">
+                    {c.title}
                   </p>
-                  <p className="text-gray-600 text-sm">{card.subtitle}</p>
-                  <h2 className="text-xl font-bold text-gray-900 mt-1">
-                    {card.amount}
+
+                  <h2 className="text-2xl font-bold mt-1 group-hover:text-yellow-400 transition">
+                    ₹{c.amount}
                   </h2>
                 </div>
+
               </div>
 
-              
-              <button className="text-sm px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
-                View →
-              </button>
+              {/* PROGRESS */}
+              <div className="mt-5 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full w-[70%] bg-gradient-to-r from-yellow-400 to-orange-400 group-hover:w-[88%] transition-all duration-500"></div>
+              </div>
 
             </div>
           </div>
         ))}
+
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default ViewHiisab
+export default ViewHiisab;

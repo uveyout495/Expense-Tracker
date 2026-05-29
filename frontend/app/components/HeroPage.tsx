@@ -31,7 +31,6 @@ const HeroPage = () => {
     (state: any) => state.user
   );
 
-  console.log(todayExpance?.data);
 
   // ================= CHANGING TEXT =================
   const texts = [
