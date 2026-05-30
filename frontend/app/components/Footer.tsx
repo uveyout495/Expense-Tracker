@@ -51,7 +51,7 @@ const Footer = () => {
         <div className="text-center md:text-left">
           <p className="text-xl font-semibold mb-4">Contact Us</p>
           <div className="flex flex-col gap-2 text-gray-300">
-            <p>Email: <a href="mailto:Samratsuraj10@gmail.com" className="hover:text-yellow-400 transition">Samratsuraj10@gmail.com</a></p>
+            <p>Email: <a href="mailto:Samratsuraj10@gmail.com" className="hover:text-yellow-400 transition">samratsuraj10@gmail.com</a></p>
             <p>Phone: <a href="tel:+919794603102" className="hover:text-yellow-400 transition">+91 9794603102</a></p>
           </div>
         </div>
