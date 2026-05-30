@@ -8,7 +8,11 @@ import getTokenAndSetCookie from "../utils/genTokenAndSetCookie";
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
-        const { fullName, email, password, confirmPassword } = req.body;
+        let { fullName, email, password, confirmPassword } = req.body;
+
+        if(email){
+            email = email.toLowerCase()
+        }
 
         if (!fullName || !email || !password || !confirmPassword) {
             return res.status(400).json({ success: false, message: "All fields are required" });
@@ -38,7 +42,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
         const newUser = new User({
             fullName,
-            email,
+            email: email.toLowerCase(),
             password: hashedPassword,
             verifyPasswordToken: verifyPasswordToken
         });

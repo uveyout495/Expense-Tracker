@@ -10,10 +10,8 @@ import LoadingScreen from './LoadingScreen';
 
 const Custom = ({ children }: { children: React.ReactNode }) => {
     let { isLoading, data } = useLoaderUserQuery({})
-    // let [isLoading , setIsLoading] = React.useState(true)
     if (isLoading) {
         return <div className='flex items-center justify-center h-screen'>
-            {/* <p className='text-lg'>Loading...</p> */}
             <LoadingScreen />
         </div>
     }
