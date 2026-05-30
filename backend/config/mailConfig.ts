@@ -4,7 +4,7 @@ import EnvVars from './EnvVars';
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 588,
+    port: 587,
     secure: false,
     auth: {
         user: EnvVars.NODEMAILER_USER,
