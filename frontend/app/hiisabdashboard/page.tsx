@@ -150,32 +150,32 @@ const HiisabDashboard = () => {
   );
 
   // AUTH CHECK
-  useEffect(() => {
-    const publicRoutes = [
-      "/",
-      "/login",
-      "/signup",
-      "/ask",
-    ];
+  // useEffect(() => {
+  //   const publicRoutes = [
+  //     "/",
+  //     "/login",
+  //     "/signup",
+  //     "/ask",
+  //   ];
 
-    if (
-      !user &&
-      !publicRoutes.includes(pathname)
-    ) {
-      router.push("/");
+  //   if (
+  //     !user &&
+  //     !publicRoutes.includes(pathname)
+  //   ) {
+  //     router.push("/");
 
-      dispatch(setErrorMessage(true));
+  //     // dispatch(setErrorMessage(true));
 
-      toast.error(
-        "Please sign in to access this page"
-      );
-    }
-  }, [
-    user,
-    pathname,
-    router,
-    dispatch,
-  ]);
+  //     // toast.error(
+  //     //   "Please sign in to access this page"
+  //     // );
+  //   }
+  // }, [
+  //   user,
+  //   pathname,
+  //   router,
+  //   dispatch,
+  // ]);
 
 
 
@@ -211,19 +211,6 @@ const HiisabDashboard = () => {
 
   // EFFECTS
   useEffect(() => {
-    if (logoutData) {
-      console.log(
-        "Logout Success",
-        logoutData
-      );
-    }
-
-    if (isLogoutError) {
-      console.log(
-        "Logout Error",
-        logoutError
-      );
-    }
 
     if (isLogoutSuccess) {
       navigate.push("/login");
