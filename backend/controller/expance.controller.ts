@@ -71,7 +71,7 @@ export const createExpance = async (req: Request, res: Response) => {
 export const getAllExpances = async (req: Request, res: Response) => {
     try {
         let user = (req.user as any)._id;
-        let expances = await Expance.find({ userId: user }).sort({ date : -1 });
+        let expances = await Expance.find({ userId: user }).sort({ createdAt: -1 });
         if (!expances) {
             return res.status(404).json({
                 success: false,
