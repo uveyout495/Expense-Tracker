@@ -19,11 +19,18 @@ const Navbar = () => {
     const publicRoutes = ["/", "/login", "/signup" , "/ask" , "/forgetpassword" , "/verify-email" , `/reset-password/${params.id}` ];
 
     if (!user && !publicRoutes.includes(pathname)) {
-      router.push("/");
       dispatch(setErrorMessage(true));
+      router.push("/");
       toast.error("Please sign in to access this page")
     }
+
+    if(user){
+      if (pathname === "/login" || pathname === "/signup") {
+        router.push("/");
+      }
+    }
   }, [user, pathname, router, dispatch]);
+
 
   return (
     <div className="bg-black/80 backdrop-blur-md px-4 md:px-8 py-4 flex justify-between items-center border-b border-white/10">
