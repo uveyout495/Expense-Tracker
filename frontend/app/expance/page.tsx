@@ -175,26 +175,26 @@ let submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
               name="expanceCategory"
               value={formData.expanceCategory}
               onChange={changeHander}
-              className="w-full px-4 py-3 rounded-xl bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white transition"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             >
-              <option value="">Select Category</option>
-              <option value="food">Food</option>
-              <option value="fruits">Fruits</option>
-              <option value="donations">Donations</option>
-              <option value="movies">Movies</option>
-              <option value="fast_foods">Fast Foods</option>
-              <option value="EMIs">EMIs</option>
-              <option value="transport">Transport</option>
-              <option value="diesel">Diesel</option>
-              <option value="petrol">Petrol</option>
-              <option value="shopping">Shopping</option>
-              <option value="shopping">Cloths</option>
-              <option value="bills">Bills</option>
-              <option value="recharge">Recharge</option>
-              <option value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
-              <option value="medical">Medical</option>
-              <option value="gym">Gym</option>
-              <option value="other">Other</option>
+              <option className="text-black" value="">Select Category</option>
+              <option className="text-black" value="food">Food</option>
+              <option className="text-black" value="fruits">Fruits</option>
+              <option className="text-black" value="donations">Donations</option>
+              <option className="text-black" value="movies">Movies</option>
+              <option className="text-black" value="fast_foods">Fast Foods</option>
+              <option className="text-black" value="EMIs">EMIs</option>
+              <option className="text-black" value="transport">Transport</option>
+              <option className="text-black" value="diesel">Diesel</option>
+              <option className="text-black" value="petrol">Petrol</option>
+              <option className="text-black" value="shopping">Shopping</option>
+              <option className="text-black" value="shopping">Cloths</option>
+              <option className="text-black" value="bills">Bills</option>
+              <option className="text-black" value="recharge">Recharge</option>
+              <option className="text-black" value="extra/Advance Amount Given">Extra/Advance Amount Given</option>
+              <option className="text-black" value="medical">Medical</option>
+              <option className="text-black" value="gym">Gym</option>
+              <option className="text-black" value="other">Other</option>
             </select>
           </div>
 
@@ -204,13 +204,13 @@ let submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
               name="paymentMethod"
               value={formData.paymentMethod}
               onChange={changeHander}
-              className="w-full px-4 py-3 rounded-xl bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white transition"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             >
-              <option value="">Select Payment Method</option>
-              <option value="cash">Cash</option>
-              <option value="card">Card</option>
-              <option value="upi">UPI</option>
-              <option value="netbanking">Net Banking</option>
+              <option className="text-black" value="">Select Payment Method</option>
+              <option className="text-black" value="cash">Cash</option>
+              <option className="text-black" value="card">Card</option>
+              <option className="text-black" value="upi">UPI</option>
+              <option className="text-black" value="netbanking">Net Banking</option>
             </select>
           </div>
 

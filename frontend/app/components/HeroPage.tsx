@@ -224,7 +224,7 @@ const HeroPage = () => {
         </div>
       </div>
 
-      {/* TODAY EXPENSE BOX */}
+      
       <motion.div
         initial={{
           opacity: 0,
@@ -355,6 +355,8 @@ const HeroPage = () => {
           </span>
         </motion.div>
       </motion.div>
+
+      
     </section>
   );
 };
