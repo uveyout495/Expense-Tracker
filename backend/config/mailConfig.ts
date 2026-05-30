@@ -1,233 +1,146 @@
+import nodemailer from "nodemailer";
+import dns from "dns";
+import EnvVars from "./EnvVars";
 
-import nodemailer from 'nodemailer';
-import EnvVars from './EnvVars';
+// ✅ IMPORTANT: Force IPv4 (fixes Render + IPv6 SMTP issue)
+dns.setDefaultResultOrder("ipv4first");
 
+// ===============================
+// 📧 TRANSPORTER CONFIG
+// ===============================
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true, // 🔥 MUST be true for 465
     auth: {
         user: EnvVars.NODEMAILER_USER,
-        pass: EnvVars.NODEMAILER_PASS,
+        pass: EnvVars.NODEMAILER_PASS, // 🔑 Gmail App Password
     },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 20000,
 });
 
-
-transporter.verify((error, success) => {
+// ===============================
+// 🧪 SMTP TEST
+// ===============================
+transporter.verify((error) => {
     if (error) {
-        console.log("SMTP ERROR:", error)
+        console.error("❌ SMTP ERROR:", error);
     } else {
-        console.log("Nodemailer ready")
+        console.log("✅ Nodemailer Ready (SMTP Connected)");
     }
-})
+});
 
-const sendEmail = async (to: string, subject: string, body: string) => {
-    await transporter.sendMail({
-        from: `Your Expansio. ${EnvVars.NODEMAILER_USER}`,
-        to,
-        subject,
-        html: body
-    })
-}
+// ===============================
+// 📩 GENERIC EMAIL SENDER
+// ===============================
+const sendEmail = async (to: string, subject: string, html: string) => {
+    console.log("📤 Sending email to:", to);
 
+    try {
+        const info = await transporter.sendMail({
+            from: `Expensio <${EnvVars.NODEMAILER_USER}>`,
+            to,
+            subject,
+            html,
+        });
 
+        console.log("✅ Email sent:", info.messageId);
+    } catch (error) {
+        console.error("❌ Email send failed:", error);
+        throw error;
+    }
+};
+
+// ===============================
+// 📧 VERIFY EMAIL
+// ===============================
 export const sendVerificationToEmail = async (to: string, token: string) => {
-    const verificationUrl = `https://expense-tracker-chi-dun-13.vercel.app/verify-email/${token}`
+    const verificationUrl = `https://expense-tracker-chi-dun-13.vercel.app/verify-email/${token}`;
 
     const html = `
-    <div style="
-        font-family: Arial, sans-serif;
-        background-color: #0b0b0b;
-        padding: 40px 20px;
-        color: #ffffff;
-    ">
-        <div style="
-            max-width: 600px;
-            margin: auto;
-            background: #111111;
-            border: 1px solid #222;
-            border-radius: 16px;
-            overflow: hidden;
-        ">
-            
-            <!-- Header -->
-            <div style="
-                background: #000000;
-                padding: 25px;
-                text-align: center;
-                border-bottom: 1px solid #222;
-            ">
-                <h1 style="
-                    margin: 0;
-                    font-size: 32px;
-                    color: #ffffff;
-                ">
-                    Expensio<span style="color:#facc15;">.</span>
-                </h1>
+    <div style="font-family:Arial;background:#0b0b0b;padding:40px;color:#fff">
+        <div style="max-width:600px;margin:auto;background:#111;border-radius:16px;overflow:hidden">
+
+            <div style="padding:25px;text-align:center;background:#000">
+                <h1>Expensio<span style="color:#facc15">.</span></h1>
             </div>
 
-            <!-- Body -->
-            <div style="padding: 40px 30px;">
-                <h2 style="
-                    margin-top: 0;
-                    font-size: 28px;
-                    color: #facc15;
-                ">
-                    Verify Your Email
-                </h2>
+            <div style="padding:40px">
+                <h2 style="color:#facc15">Verify Your Email</h2>
 
-                <p style="
-                    font-size: 16px;
-                    line-height: 1.8;
-                    color: #d1d5db;
-                ">
-                    Welcome to Expensio 👋
-                    <br /><br />
-                    Please verify your email address to start tracking your daily expenses easily.
+                <p style="color:#d1d5db;line-height:1.6">
+                    Welcome 👋<br/><br/>
+                    Please verify your email to continue.
                 </p>
 
-                <!-- Button -->
-                <div style="text-align:center; margin: 40px 0;">
-                    <a 
-                        href="${verificationUrl}"
-                        style="
-                            display: inline-block;
-                            background: #facc15;
-                            color: #000000;
-                            padding: 14px 32px;
-                            font-size: 16px;
-                            font-weight: bold;
-                            text-decoration: none;
-                            border-radius: 10px;
-                        "
-                    >
+                <div style="text-align:center;margin:30px 0">
+                    <a href="${verificationUrl}"
+                        style="background:#facc15;color:#000;padding:14px 28px;
+                        text-decoration:none;font-weight:bold;border-radius:10px">
                         Verify Email
                     </a>
                 </div>
 
-                <p style="
-                    font-size: 14px;
-                    color: #9ca3af;
-                    line-height: 1.6;
-                ">
-                    If you didn’t create an account, you can safely ignore this email.
+                <p style="color:#9ca3af;font-size:13px">
+                    If this wasn’t you, ignore this email.
                 </p>
             </div>
 
-            <!-- Footer -->
-            <div style="
-                border-top: 1px solid #222;
-                padding: 20px;
-                text-align: center;
-                color: #6b7280;
-                font-size: 13px;
-            ">
-                © 2026 Expensio. Daily Hisab, Made Simple.
+            <div style="text-align:center;padding:15px;font-size:12px;color:#666">
+                © 2026 Expensio
             </div>
+
         </div>
     </div>
-    `
+    `;
 
-    await sendEmail(to, "Verify Your Email - Expensio", html)
-}
+    await sendEmail(to, "Verify Your Email - Expensio", html);
+};
 
-
+// ===============================
+// 🔐 RESET PASSWORD EMAIL
+// ===============================
 export const sendResetPassToEmail = async (to: string, token: string) => {
-    const resetUrl = `https://expense-tracker-chi-dun-13.vercel.app/reset-password/${token}`
+    const resetUrl = `https://expense-tracker-chi-dun-13.vercel.app/reset-password/${token}`;
 
     const html = `
-    <div style="
-        font-family: Arial, sans-serif;
-        background-color: #0b0b0b;
-        padding: 40px 20px;
-        color: #ffffff;
-    ">
-        <div style="
-            max-width: 600px;
-            margin: auto;
-            background: #111111;
-            border: 1px solid #222;
-            border-radius: 16px;
-            overflow: hidden;
-        ">
-            
-            <!-- Header -->
-            <div style="
-                background: #000000;
-                padding: 25px;
-                text-align: center;
-                border-bottom: 1px solid #222;
-            ">
-                <h1 style="
-                    margin: 0;
-                    font-size: 32px;
-                    color: #ffffff;
-                ">
-                    Expensio<span style="color:#facc15;">.</span>
-                </h1>
+    <div style="font-family:Arial;background:#0b0b0b;padding:40px;color:#fff">
+        <div style="max-width:600px;margin:auto;background:#111;border-radius:16px;overflow:hidden">
+
+            <div style="padding:25px;text-align:center;background:#000">
+                <h1>Expensio<span style="color:#facc15">.</span></h1>
             </div>
 
-            <!-- Body -->
-            <div style="padding: 40px 30px;">
-                <h2 style="
-                    margin-top: 0;
-                    font-size: 28px;
-                    color: #facc15;
-                ">
-                    Reset Your Password
-                </h2>
+            <div style="padding:40px">
+                <h2 style="color:#facc15">Reset Password</h2>
 
-                <p style="
-                    font-size: 16px;
-                    line-height: 1.8;
-                    color: #d1d5db;
-                ">
-                    We received a request to reset your password.
-                    <br /><br />
-                    Click the button below to create a new password and continue using Expensio securely.
+                <p style="color:#d1d5db;line-height:1.6">
+                    We received a request to reset your password.<br/><br/>
+                    Click below to continue.
                 </p>
 
-                <!-- Button -->
-                <div style="text-align:center; margin: 40px 0;">
-                    <a 
-                        href="${resetUrl}"
-                        style="
-                            display: inline-block;
-                            background: #facc15;
-                            color: #000000;
-                            padding: 14px 32px;
-                            font-size: 16px;
-                            font-weight: bold;
-                            text-decoration: none;
-                            border-radius: 10px;
-                        "
-                    >
+                <div style="text-align:center;margin:30px 0">
+                    <a href="${resetUrl}"
+                        style="background:#facc15;color:#000;padding:14px 28px;
+                        text-decoration:none;font-weight:bold;border-radius:10px">
                         Reset Password
                     </a>
                 </div>
 
-                <p style="
-                    font-size: 14px;
-                    color: #9ca3af;
-                    line-height: 1.6;
-                ">
-                    If you didn’t request a password reset, you can safely ignore this email.
+                <p style="color:#9ca3af;font-size:13px">
+                    If you didn’t request this, ignore this email.
                 </p>
             </div>
 
-            <!-- Footer -->
-            <div style="
-                border-top: 1px solid #222;
-                padding: 20px;
-                text-align: center;
-                color: #6b7280;
-                font-size: 13px;
-            ">
-                © 2026 Expensio. Daily Hisab, Made Simple.
+            <div style="text-align:center;padding:15px;font-size:12px;color:#666">
+                © 2026 Expensio
             </div>
+
         </div>
     </div>
-    `
+    `;
 
-    await sendEmail(to, "Reset Your Password - Expensio", html)
-}
+    await sendEmail(to, "Reset Your Password - Expensio", html);
+};
