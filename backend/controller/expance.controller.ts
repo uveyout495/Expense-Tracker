@@ -9,7 +9,7 @@ export const createExpance = async (req: Request, res: Response) => {
     try {
         let user = (req.user as any)?._id;
         let { item, price, expanceCategory, paymentMethod, date, notes } = req.body;
-        console.log("Received data in createExpance controller: ", { item, price, expanceCategory, paymentMethod, date, notes });
+        
 
         if (!item || !price || !expanceCategory || !paymentMethod || !date || !notes) {
             return res.status(400).json({ success: false, message: "All fields are required" });
@@ -21,13 +21,6 @@ export const createExpance = async (req: Request, res: Response) => {
         }
 
 
-        if (u.totalBalance < price) {
-            return res.status(400).json({ success: false, message: "Insufficient balance" });
-        } else {
-            u.totalBalance -= price;
-            await u.save();
-        }
-
         const image = req.file as Express.Multer.File;
         if (!image) {
             return res.status(400).json({
@@ -36,6 +29,12 @@ export const createExpance = async (req: Request, res: Response) => {
             });
         }
 
+        if (u.totalBalance < price) {
+            return res.status(400).json({ success: false, message: "Insufficient balance" });
+        } else {
+            u.totalBalance -= price;
+            await u.save();
+        }
 
         let file = DataUri(image);
         let cloudinaryResponse = await cloudinary.uploader.upload(file as string);
