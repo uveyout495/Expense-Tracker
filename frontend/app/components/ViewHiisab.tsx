@@ -24,9 +24,7 @@ const ViewHiisab = () => {
   const { data: thisMonthData } = useGetThisMonthExpanceQuery({}, { skip: !user });
   const { data: thisYearData } = useGetThisYearExpanceQuery({}, { skip: !user });
 
-  // ==========================
-  // NOT LOGGED IN UI
-  // ==========================
+
   if (!user) {
     return (
       <div className="min-h-[75vh] bg-[#050505] text-white flex items-center justify-center px-5 py-10">
@@ -141,9 +139,6 @@ const ViewHiisab = () => {
     );
   }
 
-  // ==========================
-  // LOGGED IN UI
-  // ==========================
 
   const todayTotal =
     todayExpanceData?.data?.reduce(

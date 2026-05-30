@@ -348,7 +348,10 @@ const HeroPage = () => {
           <span className="text-yellow-400 text-lg">
             ₹
             {todayExpance?.data
-              ?.total || 0}
+              ?.reduce(
+                (acc: number, item: any) => acc + (item?.price || 0),
+                0
+              )  || 0}
           </span>
         </motion.div>
       </motion.div>
